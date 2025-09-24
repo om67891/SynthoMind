@@ -3,1734 +3,1028 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SynthoMind - Your Private Mental Health Journal</title>
+    <title>MindCare AI | Secure Mental Health Journal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #06b6d4;
-            --light: #f8fafc;
-            --dark: #1e1b4b;
-            --gray: #64748b;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --radius: 12px;
+            --primary: #5d5fef;
+            --primary-light: #e0e1ff;
+            --secondary: #4ecdc4;
+            --accent: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #2d3436;
+            --gray: #a5b1c2;
+            --success: #1dd1a1;
+            --warning: #feca57;
+            --danger: #ff6b6b;
             --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+            --radius: 12px;
         }
-        
+
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: var(--light);
-            overflow-x: hidden;
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        section {
-            padding: 5rem 0;
-        }
-        
-        /* Navbar Styles */
-        .navbar {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-        
-        .navbar.scrolled {
-            padding: 0.75rem 2rem;
-            background: rgba(99, 102, 241, 0.95);
-            backdrop-filter: blur(10px);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background-color: #f0f2f5;
+            color: var(--dark);
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            min-height: 100vh;
         }
-        
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(135deg, var(--primary), #6c5ce7);
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow);
+            z-index: 10;
+        }
+
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
-        .logo-icon {
-            background: rgba(255, 255, 255, 0.2);
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+
+        .logo i {
+            font-size: 28px;
+            margin-right: 10px;
         }
-        
+
+        .logo h1 {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
         .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
+            list-style: none;
+            flex: 1;
         }
-        
+
+        .nav-links li {
+            margin-bottom: 10px;
+        }
+
         .nav-links a {
             color: white;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: white;
-            transition: all 0.3s;
-            transform: translateX(-50%);
-        }
-        
-        .nav-links a:hover::after {
-            width: 80%;
-        }
-        
-        .auth-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-        
-        .btn {
-            padding: 0.5rem 1.5rem;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            outline: none;
-        }
-        
-        .btn-primary {
-            background: white;
-            color: var(--primary-dark);
-        }
-        
-        .btn-primary:hover {
-            background: #f0f0f0;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 100%);
-            padding: 5rem 2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 80vh;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        
-        .hero-container {
-            max-width: 1200px;
+            text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 4rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-content {
-            flex: 1;
-        }
-        
-        .hero-title {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--gray);
-            margin-bottom: 2rem;
-            max-width: 500px;
-        }
-        
-        .hero-image {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .hero-image-placeholder {
-            width: 100%;
-            max-width: 500px;
-            height: 350px;
-            background: linear-gradient(135deg, #c7d2fe 0%, #a5b4fc 100%);
+            padding: 12px 15px;
             border-radius: var(--radius);
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .user-profile {
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.5rem;
-            font-weight: 600;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            overflow: hidden;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
-        .hero-image-placeholder::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shimmer 3s infinite linear;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) rotate(45deg); }
-        }
-        
-        /* Features Section */
-        .features {
-            padding: 5rem 2rem;
-            background: white;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 3rem;
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 2px;
-        }
-        
-        .features-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .feature-card {
-            background: #f8fafc;
-            padding: 2rem;
-            border-radius: var(--radius);
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid #e2e8f0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-        
-        .feature-description {
-            color: var(--gray);
-        }
-        
-        /* Chatbot Section */
-        .chatbot-section {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            padding: 5rem 0;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .chatbot-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            gap: 3rem;
-            align-items: center;
-        }
-        
-        .chatbot-info {
-            flex: 1;
-        }
-        
-        .chatbot-demo {
-            flex: 1;
-            background: white;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .chatbot-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .chatbot-avatar {
+
+        .user-avatar {
             width: 40px;
             height: 40px;
-            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
+            background-color: var(--secondary);
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
         }
-        
-        .chatbot-messages {
+
+        .user-info {
             flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
         }
-        
-        .message {
-            max-width: 80%;
-            padding: 0.75rem 1rem;
-            border-radius: 18px;
-            position: relative;
-            animation: fadeIn 0.3s ease;
+
+        .user-info h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .user-info p {
+            font-size: 12px;
+            opacity: 0.8;
         }
-        
-        .user-message {
-            background: var(--primary);
-            color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-        
-        .bot-message {
-            background: #f1f5f9;
-            color: var(--dark);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-        
-        .chatbot-input {
-            padding: 1rem;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            gap: 0.5rem;
-        }
-        
-        .chatbot-input input {
-            flex: 1;
-            padding: 0.75rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 24px;
-            outline: none;
-            transition: all 0.3s;
-        }
-        
-        .chatbot-input input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-        
-        .chatbot-input button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .chatbot-input button:hover {
-            background: var(--primary-dark);
-            transform: scale(1.05);
-        }
-        
-        /* Agents Section */
-        .agents-section {
-            background: white;
-            padding: 5rem 0;
-        }
-        
-        .agents-tabs {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .tabs-header {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .tab-btn {
-            padding: 0.75rem 1.5rem;
-            background: #f1f5f9;
-            border: none;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-        }
-        
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .agent-card {
-            background: #f8fafc;
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            border-left: 4px solid var(--primary);
-            transition: all 0.3s;
-        }
-        
-        .agent-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
-        }
-        
-        .agent-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--dark);
-        }
-        
-        .agent-desc {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        /* CTA Section */
-        .cta {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            padding: 5rem 2rem;
-            text-align: center;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .cta::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-        
-        .cta-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .cta-subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-            opacity: 0.9;
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* Glow Button Styles */
-        .glow-btn {
-            position: relative;
-            padding: 1em 2em;
-            border: 2px solid var(--secondary);
-            border-radius: 8px;
-            background: var(--dark);
-            color: white;
-            overflow: hidden;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-block;
-            margin: 0.5rem;
-        }
-        
-        .glow-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        
-        .glow-spot {
-            position: absolute;
-            top: 0;
-            left: 40px;
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, var(--secondary) 40%, transparent 80%);
-            border-radius: 50%;
-            animation: moveSpot 4s linear infinite;
-            transform: translate(-40px, -40px);
-            opacity: 0.7;
-        }
-        
-        @keyframes moveSpot {
-            0%   { top: 0; left: 40px; }
-            25%  { top: 0; left: calc(100% - 40px); }
-            50%  { top: calc(100% - 40px); left: calc(100% - 40px); }
-            75%  { top: calc(100% - 40px); left: 40px; }
-            100% { top: 0; left: 40px; }
-        }
-        
-        .glow-btn-primary {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-        
-        .glow-btn-primary .glow-spot {
-            background: radial-gradient(circle, white 40%, transparent 80%);
-        }
-        
-        .glow-btn-accent {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-        
-        .glow-btn-accent .glow-spot {
-            background: radial-gradient(circle, white 40%, transparent 80%);
-        }
-        
-        /* Footer */
-        .footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 2rem;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        
-        .footer-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 1rem;
-        }
-        
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-        
-        .footer-links a {
-            color: #c7d2fe;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: white;
-        }
-        
-        .copyright {
-            text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid #374151;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-container, .chatbot-container {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .nav-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .cta-title {
-                font-size: 2rem;
-            }
-            
-            .chatbot-demo {
-                height: 400px;
-            }
-        }
-        
-        /* Floating Chatbot Button */
-        .floating-chatbot {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: var(--shadow-lg);
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s;
-            animation: pulse 2s infinite;
-        }
-        
-        .floating-chatbot:hover {
-            transform: scale(1.1);
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(99, 102, 241, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
-        }
-        
-        /* Chat History Panel */
-        .chat-history-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100vh;
-            background: white;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            transition: right 0.3s ease;
-            z-index: 1001;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .chat-history-panel.active {
-            right: 0;
-        }
-        
-        .history-header {
-            padding: 1rem;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .history-close {
+
+        .logout-btn {
             background: none;
             border: none;
             color: white;
-            font-size: 1.5rem;
             cursor: pointer;
+            font-size: 18px;
         }
-        
-        .history-content {
+
+        /* Main Content Styles */
+        .main-content {
             flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
-        
-        .history-item {
-            padding: 0.75rem;
-            border-bottom: 1px solid #e2e8f0;
-            cursor: pointer;
-            transition: background 0.3s;
+
+        .header {
+            background-color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
         }
-        
-        .history-item:hover {
-            background: #f1f5f9;
-        }
-        
-        .history-date {
+
+        .header h2 {
             font-weight: 600;
             color: var(--dark);
         }
-        
-        .history-preview {
-            font-size: 0.9rem;
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-btn {
+            background-color: var(--primary-light);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            color: var(--primary);
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .header-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* Chat History Styles */
+        .chat-history {
+            width: 300px;
+            background-color: white;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .history-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .new-chat-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .history-item:hover {
+            background-color: var(--primary-light);
+        }
+
+        .history-item.active {
+            background-color: var(--primary-light);
+            border-left: 3px solid var(--primary);
+        }
+
+        .history-item h4 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-item p {
+            font-size: 12px;
             color: var(--gray);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: none;
+
+        /* Chat Area Styles */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
         }
-        
-        .overlay.active {
-            display: block;
-        }
-        
-        /* New Styles for Enhanced Features */
-        
-        /* Enhanced Chatbot Section */
-        .chatbot-features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .chatbot-feature {
+
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: var(--radius);
-            transition: transform 0.3s;
+            gap: 10px;
         }
-        
-        .chatbot-feature:hover {
-            transform: translateY(-3px);
-        }
-        
-        .chatbot-feature-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            border-radius: 50%;
+
+        .agent-indicator {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .agent-symptom {
+            background-color: #ffeaa7;
+            color: #e17055;
+        }
+
+        .agent-ethical {
+            background-color: #a29bfe;
             color: white;
-            font-size: 1.5rem;
         }
-        
-        /* Agent Categories */
-        .agent-category {
-            margin-bottom: 3rem;
+
+        .agent-crisis {
+            background-color: #ff7675;
+            color: white;
         }
-        
-        .category-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--primary-dark);
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            flex-direction: column;
+            gap: 20px;
         }
-        
-        .category-title i {
-            font-size: 1.2rem;
-        }
-        
-        /* Enhanced CTA Section */
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-        
-        /* Security Features Section */
-        .security-section {
-            background: linear-gradient(135deg, #fef7ff 0%, #f3e8ff 100%);
-            padding: 5rem 0;
-        }
-        
-        .security-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .security-card {
-            background: white;
-            padding: 2rem;
+
+        .message {
+            max-width: 80%;
+            padding: 15px;
             border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .security-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .security-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-        
-        /* Testimonials Section */
-        .testimonials-section {
-            background: white;
-            padding: 5rem 0;
-        }
-        
-        .testimonials {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .testimonial-card {
-            background: #f8fafc;
-            padding: 2rem;
-            border-radius: var(--radius);
-            border-left: 4px solid var(--accent);
             position: relative;
+            line-height: 1.5;
         }
-        
-        .testimonial-text {
-            font-style: italic;
-            margin-bottom: 1rem;
-            color: var(--dark);
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--primary-light);
+            border-bottom-right-radius: 5px;
         }
-        
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: #f1f2f6;
+            border-bottom-left-radius: 5px;
         }
-        
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+
+        .message-time {
+            font-size: 11px;
+            color: var(--gray);
+            margin-top: 5px;
+            text-align: right;
         }
-        
-        /* Chatbot Typing Indicator */
+
         .typing-indicator {
             display: flex;
             align-items: center;
             gap: 5px;
-            padding: 0.5rem 1rem;
-            background: #f1f5f9;
-            border-radius: 18px;
-            align-self: flex-start;
-            margin-bottom: 0.5rem;
+            padding: 10px 15px;
+            background-color: #f1f2f6;
+            border-radius: var(--radius);
             width: fit-content;
+            margin-top: 10px;
         }
-        
+
         .typing-dot {
             width: 8px;
             height: 8px;
-            background: var(--gray);
+            background-color: var(--gray);
             border-radius: 50%;
             animation: typing 1.4s infinite ease-in-out;
         }
-        
+
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        
+
         @keyframes typing {
             0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
             40% { transform: scale(1); opacity: 1; }
         }
-        
-        /* Message Timestamps */
-        .message-time {
-            font-size: 0.7rem;
-            opacity: 0.7;
-            margin-top: 0.25rem;
+
+        .chat-input-container {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
         }
-        
-        .user-message .message-time {
-            text-align: right;
-        }
-        
-        /* Chatbot Welcome Message */
-        .welcome-message {
-            text-align: center;
-            padding: 1rem;
-            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-            border-radius: var(--radius);
-            margin-bottom: 1rem;
-        }
-        
-        /* Enhanced Feature Cards */
-        .enhanced-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .enhanced-feature-card {
-            background: white;
-            padding: 2rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            transition: all 0.3s;
-            border-top: 4px solid var(--primary);
-        }
-        
-        .enhanced-feature-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-        
-        .enhanced-feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        /* Chatbot Quick Actions */
-        .quick-actions {
+
+        .chat-input-wrapper {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-top: 1rem;
+            align-items: flex-end;
+            gap: 10px;
+            background-color: #f8f9fa;
+            border-radius: var(--radius);
+            padding: 10px;
+            border: 1px solid #e0e0e0;
         }
-        
-        .quick-action {
-            padding: 0.5rem 1rem;
-            background: rgba(99, 102, 241, 0.1);
-            border-radius: 20px;
-            font-size: 0.9rem;
+
+        .chat-input {
+            flex: 1;
+            border: none;
+            background: none;
+            resize: none;
+            outline: none;
+            font-size: 16px;
+            max-height: 120px;
+            min-height: 24px;
+            padding: 5px;
+        }
+
+        .send-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
         }
-        
-        .quick-action:hover {
-            background: rgba(99, 102, 241, 0.2);
+
+        .send-btn:hover {
+            background-color: #4a4cdf;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Agent Status Panel */
+        .agent-status {
+            width: 250px;
+            background-color: white;
+            padding: 20px;
+            border-left: 1px solid #e0e0e0;
+            overflow-y: auto;
+        }
+
+        .status-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .status-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .status-header p {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .status-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .status-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .icon-symptom { background-color: #fdcb6e; }
+        .icon-sentimental { background-color: #74b9ff; }
+        .icon-reasoning { background-color: #55efc4; }
+        .icon-ethical { background-color: #a29bfe; }
+        .icon-crisis { background-color: #ff7675; }
+        .icon-report { background-color: #fd79a8; }
+
+        .status-title h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-bar {
+            height: 6px;
+            background-color: #f0f0f0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .status-progress {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .progress-symptom { background-color: #fdcb6e; width: 75%; }
+        .progress-sentimental { background-color: #74b9ff; width: 60%; }
+        .progress-reasoning { background-color: #55efc4; width: 45%; }
+        .progress-ethical { background-color: #a29bfe; width: 30%; }
+        .progress-crisis { background-color: #ff7675; width: 10%; }
+        .progress-report { background-color: #fd79a8; width: 20%; }
+
+        .status-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .mood-tracker {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            color: white;
+            padding: 15px;
+            border-radius: var(--radius);
+            margin-top: 20px;
+        }
+
+        .mood-tracker h4 {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .mood-options {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .mood-option {
+            text-align: center;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.3s;
+        }
+
+        .mood-option:hover, .mood-option.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .mood-option i {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .mood-option span {
+            font-size: 11px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 80px;
+                padding: 20px 10px;
+            }
+            
+            .logo h1, .nav-links span, .user-info {
+                display: none;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .nav-links a {
+                justify-content: center;
+                padding: 15px 0;
+            }
+            
+            .nav-links i {
+                margin-right: 0;
+                font-size: 20px;
+            }
+            
+            .user-profile {
+                justify-content: center;
+            }
+            
+            .agent-status {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                transition: left 0.3s;
+                height: 100vh;
+                z-index: 100;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .chat-history {
+                position: fixed;
+                left: -100%;
+                height: 100vh;
+                z-index: 90;
+                transition: left 0.3s;
+            }
+            
+            .chat-history.active {
+                left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+        }
+
+        /* Crisis Alert */
+        .crisis-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--danger);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            animation: slideIn 0.5s ease-out;
+            display: none;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--dark);
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <div class="logo-icon">SM</div>
-                <span>SynthoMind</span>
-            </div>
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#features">Features</a>
-                <a href="#chatbot">Chatbot</a>
-                <a href="#agents">Agents</a>
-                <a href="#security">Security</a>
-                <div class="auth-buttons">
-                    <a href="/signup" class="btn btn-primary">Start Journaling</a>
-                    <a href="/login" class="btn btn-secondary">Login</a>
-                </div>
-            </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            <h1>MindCare AI</h1>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">Your Private Mental Health Journal</h1>
-                <p class="hero-subtitle">
-                    Track your mood, reflect daily, and gain insights — all securely and privately. Our AI-powered platform helps you understand your mental health patterns with advanced analytics.
-                </p>
-                <button class="glow-btn glow-btn-primary">
-                    <span class="glow-spot"></span>
-                    Start for free
-                </button>
-                <button class="glow-btn glow-btn-accent">
-                    <span class="glow-spot"></span>
-                    Learn More
-                </button>
+        
+        <ul class="nav-links">
+            <li><a href="#" class="active"><i class="fas fa-comment-dots"></i> <span>Chat</span></a></li>
+            <li><a href="#"><i class="fas fa-chart-line"></i> <span>Insights</span></a></li>
+            <li><a href="#"><i class="fas fa-book"></i> <span>Journal</span></a></li>
+            <li><a href="#"><i class="fas fa-chart-bar"></i> <span>Reports</span></a></li>
+            <li><a href="#"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li><a href="#"><i class="fas fa-shield-alt"></i> <span>Privacy</span></a></li>
+        </ul>
+        
+        <div class="user-profile">
+            <div class="user-avatar">JD</div>
+            <div class="user-info">
+                <h3>John Doe</h3>
+                <p>Premium Member</p>
             </div>
-            <div class="hero-image">
-                <div class="hero-image-placeholder">
-                    <i class="fas fa-robot" style="font-size: 4rem; margin-bottom: 1rem;"></i>
-                    <div>AI-Powered Mental Health Companion</div>
-                </div>
-            </div>
+            <button class="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Advanced Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-brain"></i></div>
-                    <h3 class="feature-title">AI-Powered Analysis</h3>
-                    <p class="feature-description">
-                        Our advanced algorithms analyze your journal entries to detect patterns, emotional trends, and potential mental health concerns.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
-                    <h3 class="feature-title">End-to-End Encryption</h3>
-                    <p class="feature-description">
-                        Your data is encrypted with military-grade security. Only you have access to your personal thoughts and insights.
-                    </p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
-                    <h3 class="feature-title">Progress Tracking</h3>
-                    <p class="feature-description">
-                        Visualize your mental health journey with detailed charts and progress reports that help you understand your growth over time.
-                    </p>
-                </div>
-            </div>
-            
-            <div class="enhanced-features">
-                <div class="enhanced-feature-card">
-                    <div class="enhanced-feature-icon"><i class="fas fa-comments"></i></div>
-                    <h3>Empathetic Chat Support</h3>
-                    <p>24/7 access to our AI chatbot that provides compassionate support and guidance.</p>
-                </div>
-                <div class="enhanced-feature-card">
-                    <div class="enhanced-feature-icon"><i class="fas fa-bell"></i></div>
-                    <h3>Smart Alerts</h3>
-                    <p>Receive notifications when concerning patterns are detected in your journal entries.</p>
-                </div>
-                <div class="enhanced-feature-card">
-                    <div class="enhanced-feature-icon"><i class="fas fa-mobile-alt"></i></div>
-                    <h3>Cross-Platform Sync</h3>
-                    <p>Access your journal from any device with seamless synchronization.</p>
-                </div>
-                <div class="enhanced-feature-card">
-                    <div class="enhanced-feature-icon"><i class="fas fa-hands-helping"></i></div>
-                    <h3>Crisis Intervention</h3>
-                    <p>Immediate support resources when our system detects potential crisis situations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Chatbot Section -->
-    <section id="chatbot" class="chatbot-section">
-        <div class="container">
-            <h2 class="section-title">Interactive Mental Health Companion</h2>
-            <div class="chatbot-container">
-                <div class="chatbot-info">
-                    <h3 style="font-size: 2rem; margin-bottom: 1rem; color: var(--dark);">Your AI Mental Health Companion</h3>
-                    <p style="margin-bottom: 1.5rem; color: var(--gray);">
-                        Our advanced chatbot uses natural language processing to understand your emotions, provide support, and offer evidence-based coping strategies. It's available 24/7 whenever you need someone to talk to.
-                    </p>
-                    
-                    <div class="chatbot-features">
-                        <div class="chatbot-feature">
-                            <div class="chatbot-feature-icon"><i class="fas fa-heart"></i></div>
-                            <div>
-                                <h4>Emotionally Intelligent</h4>
-                                <p>Understands and responds to your emotional state</p>
-                            </div>
-                        </div>
-                        <div class="chatbot-feature">
-                            <div class="chatbot-feature-icon"><i class="fas fa-lock"></i></div>
-                            <div>
-                                <h4>Completely Private</h4>
-                                <p>Your conversations are encrypted and secure</p>
-                            </div>
-                        </div>
-                        <div class="chatbot-feature">
-                            <div class="chatbot-feature-icon"><i class="fas fa-chart-bar"></i></div>
-                            <div>
-                                <h4>Progress Tracking</h4>
-                                <p>Tracks your mood and progress over time</p>
-                            </div>
-                        </div>
-                        <div class="chatbot-feature">
-                            <div class="chatbot-feature-icon"><i class="fas fa-hands"></i></div>
-                            <div>
-                                <h4>Crisis Support</h4>
-                                <p>Provides immediate resources when needed</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 2rem;">
-                        <button class="glow-btn" style="background: var(--accent); border-color: var(--accent);">
-                            <span class="glow-spot"></span>
-                            Try Chatbot Now
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="chatbot-demo">
-                    <div class="chatbot-header">
-                        <div class="chatbot-avatar">
-                            <i class="fas fa-robot"></i>
-                        </div>
-                        <div>
-                            <h4>SynthoMind Assistant</h4>
-                            <small>Online • Always here to listen</small>
-                        </div>
-                    </div>
-                    
-                    <div class="chatbot-messages">
-                        <div class="welcome-message">
-                            <strong>Welcome to your mental health companion!</strong>
-                            <p>I'm here to listen and support you. How are you feeling today?</p>
-                        </div>
-                        
-                        <div class="message bot-message">
-                            <p>Hello! I'm your SynthoMind assistant. How are you feeling today?</p>
-                            <div class="message-time">10:00 AM</div>
-                        </div>
-                        
-                        <div class="message user-message">
-                            <p>I've been feeling a bit anxious lately.</p>
-                            <div class="message-time">10:01 AM</div>
-                        </div>
-                        
-                        <div class="message bot-message">
-                            <p>I'm sorry to hear that. Would you like to talk about what's been making you feel anxious?</p>
-                            <div class="message-time">10:01 AM</div>
-                            
-                            <div class="quick-actions">
-                                <div class="quick-action">Work stress</div>
-                                <div class="quick-action">Relationships</div>
-                                <div class="quick-action">Health concerns</div>
-                            </div>
-                        </div>
-                        
-                        <div class="typing-indicator">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <span>SynthoMind is typing...</span>
-                        </div>
-                    </div>
-                    
-                    <div class="chatbot-input">
-                        <input type="text" placeholder="Type your message here...">
-                        <button><i class="fas fa-paper-plane"></i></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Agents Section -->
-    <section id="agents" class="agents-section">
-        <div class="container">
-            <h2 class="section-title">Our Advanced AI Agents</h2>
-            <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; color: var(--gray);">
-                SynthoMind utilizes a sophisticated multi-agent system to provide comprehensive mental health support. Each agent specializes in a different aspect of mental wellness.
-            </p>
-            
-            <div class="agents-tabs">
-                <div class="tabs-header">
-                    <button class="tab-btn active" data-tab="symptom">Symptom Agents</button>
-                    <button class="tab-btn" data-tab="disease">Disease Analysis</button>
-                    <button class="tab-btn" data-tab="support">Support & Ethics</button>
-                    <button class="tab-btn" data-tab="solutions">Solutions</button>
-                    <button class="tab-btn" data-tab="reporting">Reporting</button>
-                </div>
-                
-                <div class="tab-content active" id="symptom-tab">
-                    <div class="agent-category">
-                        <h3 class="category-title"><i class="fas fa-stethoscope"></i> Symptom & Sentiment Analysis</h3>
-                        <div class="agents-grid">
-                            <div class="agent-card">
-                                <h4 class="agent-title">Emotion Detection</h4>
-                                <p class="agent-desc">Analyzes emotional tone, mood, and stress levels from journal entries.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Symptom Classification</h4>
-                                <p class="agent-desc">Categorizes symptoms by type and assigns severity scores.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Trend Analysis</h4>
-                                <p class="agent-desc">Tracks changes in emotions and behaviors over time.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tab-content" id="disease-tab">
-                    <div class="agent-category">
-                        <h3 class="category-title"><i class="fas fa-diagnoses"></i> Disease Analysis Agents</h3>
-                        <div class="agents-grid">
-                            <div class="agent-card">
-                                <h4 class="agent-title">Level 1 Disorders</h4>
-                                <p class="agent-desc">Detects common emotional & mood disorders like depression and anxiety.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Level 2 Disorders</h4>
-                                <p class="agent-desc">Identifies behavioral & personality-related conditions.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Level 3 Disorders</h4>
-                                <p class="agent-desc">Flags severe cognitive & psychotic disorders requiring urgent attention.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Comorbidity Detection</h4>
-                                <p class="agent-desc">Identifies co-occurring disorders and prioritizes interventions.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tab-content" id="support-tab">
-                    <div class="agent-category">
-                        <h3 class="category-title"><i class="fas fa-hands-helping"></i> Support & Ethical Agents</h3>
-                        <div class="agents-grid">
-                            <div class="agent-card">
-                                <h4 class="agent-title">Ethical Support</h4>
-                                <p class="agent-desc">Provides compassionate guidance and coping strategies.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Crisis Intervention</h4>
-                                <p class="agent-desc">Monitors for self-harm risks and activates emergency protocols.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Motivational Coach</h4>
-                                <p class="agent-desc">Offers encouragement and celebrates your progress.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tab-content" id="solutions-tab">
-                    <div class="agent-category">
-                        <h3 class="category-title"><i class="fas fa-lightbulb"></i> Solutions & Recommendations</h3>
-                        <div class="agents-grid">
-                            <div class="agent-card">
-                                <h4 class="agent-title">Personalized Recommendations</h4>
-                                <p class="agent-desc">Suggests therapy options, exercises, and lifestyle changes.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Actionable Solutions</h4>
-                                <p class="agent-desc">Provides CBT exercises, journaling prompts, and habit trackers.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Alert Prioritization</h4>
-                                <p class="agent-desc">Determines urgency of notifications and interventions.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="tab-content" id="reporting-tab">
-                    <div class="agent-category">
-                        <h3 class="category-title"><i class="fas fa-chart-pie"></i> Reporting & Visualization</h3>
-                        <div class="agents-grid">
-                            <div class="agent-card">
-                                <h4 class="agent-title">Report Generation</h4>
-                                <p class="agent-desc">Creates comprehensive summaries with visualizations.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Compliance & Ethics</h4>
-                                <p class="agent-desc">Ensures data privacy and regulatory compliance.</p>
-                            </div>
-                            <div class="agent-card">
-                                <h4 class="agent-title">Personalization</h4>
-                                <p class="agent-desc">Adapts to your unique needs and preferences over time.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Security Section -->
-    <section id="security" class="security-section">
-        <div class="container">
-            <h2 class="section-title">Your Privacy & Security</h2>
-            <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem; color: var(--gray);">
-                We take your privacy seriously. Your mental health data is protected with the highest security standards.
-            </p>
-            
-            <div class="security-features">
-                <div class="security-card">
-                    <div class="security-icon"><i class="fas fa-lock"></i></div>
-                    <h3>End-to-End Encryption</h3>
-                    <p>All your journal entries and chat conversations are encrypted before they leave your device.</p>
-                </div>
-                <div class="security-card">
-                    <div class="security-icon"><i class="fas fa-user-shield"></i></div>
-                    <h3>Anonymous Usage</h3>
-                    <p>You can use SynthoMind without providing personal identifying information.</p>
-                </div>
-                <div class="security-card">
-                    <div class="security-icon"><i class="fas fa-database"></i></div>
-                    <h3>Local Storage Option</h3>
-                    <p>Choose to store your data locally on your device for maximum privacy.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials-section">
-        <div class="container">
-            <h2 class="section-title">What Users Are Saying</h2>
-            <div class="testimonials">
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "SynthoMind has been a game-changer for my mental health journey. The insights have helped me understand patterns I never noticed before."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">SJ</div>
-                        <div>
-                            <strong>Sarah J.</strong>
-                            <p>User for 6 months</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "The chatbot is surprisingly empathetic and helpful. It's like having a therapist available 24/7 without the cost."
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">MR</div>
-                        <div>
-                            <strong>Michael R.</strong>
-                            <p>User for 3 months</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p class="testimonial-text">
-                        "I was skeptical about AI mental health tools, but SynthoMind's privacy features convinced me to try it. So glad I did!"
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">TP</div>
-                        <div>
-                            <strong>Taylor P.</strong>
-                            <p>User for 1 year</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <h2 class="cta-title">Ready to start your mental wellness journey?</h2>
-            <p class="cta-subtitle">
-                Join thousands of users who have improved their mental health with daily journaling and AI-powered insights.
-            </p>
-            <div class="cta-buttons">
-                <button class="glow-btn glow-btn-primary">
-                    <span class="glow-spot"></span>
-                    Start Journaling Free
-                </button>
-                <button class="glow-btn" style="background: white; color: var(--primary); border-color: white;">
-                    <span class="glow-spot"></span>
-                    Schedule a Demo
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div>
-                    <div class="footer-logo">
-                        <div class="logo-icon">SM</div>
-                        <span>SynthoMind</span>
-                    </div>
-                    <p>Your private mental health journal powered by AI.</p>
-                </div>
-                <div>
-                    <h4>Product</h4>
-                    <div class="footer-links">
-                        <a href="#features">Features</a>
-                        <a href="#chatbot">Chatbot</a>
-                        <a href="#security">Security</a>
-                        <a href="#pricing">Pricing</a>
-                    </div>
-                </div>
-                <div>
-                    <h4>Company</h4>
-                    <div class="footer-links">
-                        <a href="/about">About Us</a>
-                        <a href="/blog">Blog</a>
-                        <a href="/careers">Careers</a>
-                        <a href="/contact">Contact</a>
-                    </div>
-                </div>
-                <div>
-                    <h4>Legal</h4>
-                    <div class="footer-links">
-                        <a href="/privacy">Privacy Policy</a>
-                        <a href="/terms">Terms of Service</a>
-                        <a href="/cookies">Cookie Policy</a>
-                        <a href="/gdpr">GDPR</a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2025 SynthoMind. All rights reserved. | Mental health resources: <a href="https://www.nami.org" style="color: #c7d2fe;">NAMI</a> | <a href="https://www.mentalhealth.gov" style="color: #c7d2fe;">MentalHealth.gov</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Floating Chatbot Button -->
-    <div class="floating-chatbot">
-        <i class="fas fa-robot"></i>
     </div>
-
-    <!-- Chat History Panel -->
-    <div class="chat-history-panel">
-        <div class="history-header">
-            <h3>Chat History</h3>
-            <button class="history-close">&times;</button>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            <h2>Mental Health Support Chat</h2>
+            <div class="header-actions">
+                <button class="header-btn"><i class="fas fa-chart-pie"></i> Generate Report</button>
+                <button class="header-btn"><i class="fas fa-download"></i> Export Data</button>
+            </div>
         </div>
-        <div class="history-content">
-            <div class="history-item">
-                <div class="history-date">Today</div>
-                <div class="history-preview">I've been feeling anxious about work...</div>
+        
+        <div class="chat-container">
+            <!-- Chat History -->
+            <div class="chat-history">
+                <div class="history-header">
+                    <h3>Chat History</h3>
+                    <button class="new-chat-btn"><i class="fas fa-plus"></i></button>
+                </div>
+                
+                <ul class="history-list">
+                    <li class="history-item active">
+                        <h4>Today's Reflection</h4>
+                        <p>I've been feeling anxious about work...</p>
+                    </li>
+                    <li class="history-item">
+                        <h4>Sleep Quality Discussion</h4>
+                        <p>My sleep patterns have been irregular...</p>
+                    </li>
+                    <li class="history-item">
+                        <h4>Weekly Check-in</h4>
+                        <p>This week was better than last...</p>
+                    </li>
+                    <li class="history-item">
+                        <h4>Stress Management</h4>
+                        <p>Work deadlines are causing stress...</p>
+                    </li>
+                    <li class="history-item">
+                        <h4>Mindfulness Practice</h4>
+                        <p>I tried meditation for the first time...</p>
+                    </li>
+                </ul>
             </div>
-            <div class="history-item">
-                <div class="history-date">Yesterday</div>
-                <div class="history-preview">Discussing sleep patterns and stress...</div>
+            
+            <!-- Chat Area -->
+            <div class="chat-area">
+                <div class="chat-header">
+                    <div class="agent-indicator agent-ethical">
+                        <i class="fas fa-heart"></i> Ethical Support Agent
+                    </div>
+                    <div class="agent-indicator agent-symptom">
+                        <i class="fas fa-stethoscope"></i> Symptom Analysis Active
+                    </div>
+                </div>
+                
+                <div class="chat-messages">
+                    <div class="message bot-message">
+                        <p>Hello! I'm your MindCare assistant. I'm here to listen and provide support. How are you feeling today?</p>
+                        <div class="message-time">10:02 AM</div>
+                    </div>
+                    
+                    <div class="message user-message">
+                        <p>I've been feeling really overwhelmed with work lately. I'm having trouble sleeping and I feel anxious most of the day.</p>
+                        <div class="message-time">10:05 AM</div>
+                    </div>
+                    
+                    <div class="message bot-message">
+                        <p>I understand that work stress can be challenging. It's good that you're acknowledging these feelings. Can you tell me more about what specifically is causing the anxiety at work?</p>
+                        <div class="message-time">10:06 AM</div>
+                    </div>
+                    
+                    <div class="message user-message">
+                        <p>I have multiple deadlines approaching and I feel like I'm not performing well enough. My manager expects a lot from me.</p>
+                        <div class="message-time">10:07 AM</div>
+                    </div>
+                    
+                    <div class="message bot-message">
+                        <p>Thank you for sharing that. It sounds like you're dealing with performance pressure. Remember that it's okay to feel this way, and many people experience similar challenges. Would it help to break down your tasks into smaller, manageable steps?</p>
+                        <div class="message-time">10:08 AM</div>
+                    </div>
+                    
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <span>Ethical Support Agent is typing</span>
+                    </div>
+                </div>
+                
+                <div class="chat-input-container">
+                    <div class="chat-input-wrapper">
+                        <textarea class="chat-input" placeholder="Type your message here..."></textarea>
+                        <button class="send-btn"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                    <div class="input-actions">
+                        <button class="action-btn"><i class="fas fa-microphone"></i> Voice</button>
+                        <button class="action-btn"><i class="fas fa-image"></i> Image</button>
+                        <button class="action-btn"><i class="fas fa-magic"></i> Sentiment Analysis</button>
+                        <button class="action-btn"><i class="fas fa-redo"></i> Regenerate</button>
+                    </div>
+                </div>
             </div>
-            <div class="history-item">
-                <div class="history-date">March 12, 2025</div>
-                <div class="history-preview">Talking about relationship concerns...</div>
-            </div>
-            <div class="history-item">
-                <div class="history-date">March 10, 2025</div>
-                <div class="history-preview">Exploring mindfulness techniques...</div>
-            </div>
-            <div class="history-item">
-                <div class="history-date">March 8, 2025</div>
-                <div class="history-preview">Initial assessment and introduction...</div>
+            
+            <!-- Agent Status Panel -->
+            <div class="agent-status">
+                <div class="status-header">
+                    <h3>Agent Status</h3>
+                    <p>Real-time monitoring of AI agents</p>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-title">
+                        <div class="status-icon icon-symptom"><i class="fas fa-stethoscope"></i></div>
+                        <h4>Symptom Analysis Agent</h4>
+                    </div>
+                    <div class="status-bar">
+                        <div class="status-progress progress-symptom"></div>
+                    </div>
+                    <div class="status-info">
+                        <span>Active</span>
+                        <span>75%</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-title">
+                        <div class="status-icon icon-sentimental"><i class="fas fa-smile"></i></div>
+                        <h4>Sentimental Analysis Agent</h4>
+                    </div>
+                    <div class="status-bar">
+                        <div class="status-progress progress-sentimental"></div>
+                    </div>
+                    <div class="status-info">
+                        <span>Analyzing</span>
+                        <span>60%</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-title">
+                        <div class="status-icon icon-reasoning"><i class="fas fa-cogs"></i></div>
+                        <h4>Reasoning & Acting Agent</h4>
+                    </div>
+                    <div class="status-bar">
+                        <div class="status-progress progress-reasoning"></div>
+                    </div>
+                    <div class="status-info">
+                        <span>Processing</span>
+                        <span>45%</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-title">
+                        <div class="status-icon icon-ethical"><i class="fas fa-heart"></i></div>
+                        <h4>Ethical Support Agent</h4>
+                    </div>
+                    <div class="status-bar">
+                        <div class="status-progress progress-ethical"></div>
+                    </div>
+                    <div class="status-info">
+                        <span>Active</span>
+                        <span>30%</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-title">
+                        <div class="status-icon icon-crisis"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h4>Crisis Agent</h4>
+                    </div>
+                    <div class="status-bar">
+                        <div class="status-progress progress-crisis"></div>
+                    </div>
+                    <div class="status-info">
+                        <span>Monitoring</span>
+                        <span>10%</span>
+                    </div>
+                </div>
+                
+                <div class="status-item">
+                    <div class="status-title">
+                        <div class="status-icon icon-report"><i class="fas fa-chart-bar"></i></div>
+                        <h4>Report Generation Agent</h4>
+                    </div>
+                    <div class="status-bar">
+                        <div class="status-progress progress-report"></div>
+                    </div>
+                    <div class="status-info">
+                        <span>Idle</span>
+                        <span>20%</span>
+                    </div>
+                </div>
+                
+                <div class="mood-tracker">
+                    <h4>How are you feeling right now?</h4>
+                    <div class="mood-options">
+                        <div class="mood-option">
+                            <i class="fas fa-grin-beam"></i>
+                            <span>Great</span>
+                        </div>
+                        <div class="mood-option">
+                            <i class="fas fa-smile"></i>
+                            <span>Good</span>
+                        </div>
+                        <div class="mood-option active">
+                            <i class="fas fa-meh"></i>
+                            <span>Okay</span>
+                        </div>
+                        <div class="mood-option">
+                            <i class="fas fa-frown"></i>
+                            <span>Sad</span>
+                        </div>
+                        <div class="mood-option">
+                            <i class="fas fa-sad-tear"></i>
+                            <span>Struggling</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    <!-- Overlay -->
-    <div class="overlay"></div>
+    
+    <!-- Crisis Alert -->
+    <div class="crisis-alert">
+        <i class="fas fa-exclamation-circle"></i>
+        <div>
+            <strong>Crisis Support Activated</strong>
+            <p>Additional support resources have been sent to your email.</p>
+        </div>
+    </div>
 
     <script>
-        // Simple smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+        // Toggle mobile menu
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
         });
-
-        // Add a simple scroll effect to navbar
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+        
+        // Send message functionality
+        document.querySelector('.send-btn').addEventListener('click', sendMessage);
+        document.querySelector('.chat-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
             }
         });
-
-        // Tab functionality for agents section
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                // Remove active class from all buttons and contents
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                
-                // Add active class to clicked button
-                button.classList.add('active');
-                
-                // Show corresponding content
-                const tabId = button.getAttribute('data-tab');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
-        });
-
-        // Chatbot functionality
-        const chatInput = document.querySelector('.chatbot-input input');
-        const chatMessages = document.querySelector('.chatbot-messages');
-        const sendButton = document.querySelector('.chatbot-input button');
-        
-        // Sample bot responses
-        const botResponses = [
-            "I understand how that can be challenging. Would you like to explore some coping strategies?",
-            "It's completely normal to feel that way sometimes. Let's talk more about what's been on your mind.",
-            "Thank you for sharing that with me. How has this been affecting your daily life?",
-            "I hear you. It takes courage to acknowledge these feelings. What support do you feel you need right now?",
-            "That sounds difficult. Remember that progress isn't always linear, and it's okay to have ups and downs."
-        ];
-        
-        function addMessage(text, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            
-            const time = new Date();
-            const timeString = time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            messageDiv.innerHTML = `
-                <p>${text}</p>
-                <div class="message-time">${timeString}</div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
         
         function sendMessage() {
-            const message = chatInput.value.trim();
+            const input = document.querySelector('.chat-input');
+            const message = input.value.trim();
+            
             if (message) {
-                addMessage(message, true);
-                chatInput.value = '';
+                // Add user message to chat
+                const chatMessages = document.querySelector('.chat-messages');
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message user-message';
+                messageDiv.innerHTML = `
+                    <p>${message}</p>
+                    <div class="message-time">${getCurrentTime()}</div>
+                `;
+                chatMessages.appendChild(messageDiv);
+                
+                // Clear input
+                input.value = '';
                 
                 // Show typing indicator
-                const typingIndicator = document.createElement('div');
-                typingIndicator.className = 'typing-indicator';
-                typingIndicator.innerHTML = `
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <div class="typing-dot"></div>
-                    <span>SynthoMind is typing...</span>
-                `;
-                chatMessages.appendChild(typingIndicator);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
+                const typingIndicator = document.querySelector('.typing-indicator');
+                typingIndicator.style.display = 'flex';
                 
                 // Simulate bot response after delay
                 setTimeout(() => {
-                    typingIndicator.remove();
-                    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
-                    addMessage(randomResponse, false);
+                    typingIndicator.style.display = 'none';
+                    
+                    // Add bot response
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'message bot-message';
+                    botMessageDiv.innerHTML = `
+                        <p>${getBotResponse(message)}</p>
+                        <div class="message-time">${getCurrentTime()}</div>
+                    `;
+                    chatMessages.appendChild(botMessageDiv);
+                    
+                    // Scroll to bottom
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    
+                    // Randomly trigger crisis alert (for demo)
+                    if (Math.random() > 0.8) {
+                        document.querySelector('.crisis-alert').style.display = 'flex';
+                        setTimeout(() => {
+                            document.querySelector('.crisis-alert').style.display = 'none';
+                        }, 5000);
+                    }
                 }, 2000);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             }
         }
         
-        sendButton.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
+        function getCurrentTime() {
+            const now = new Date();
+            return now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+        }
         
-        // Quick action buttons
-        document.querySelectorAll('.quick-action').forEach(action => {
-            action.addEventListener('click', () => {
-                chatInput.value = action.textContent;
-                sendMessage();
-            });
-        });
-
-        // Floating chatbot and history panel
-        const floatingChatbot = document.querySelector('.floating-chatbot');
-        const historyPanel = document.querySelector('.chat-history-panel');
-        const historyClose = document.querySelector('.history-close');
-        const overlay = document.querySelector('.overlay');
-        
-        floatingChatbot.addEventListener('click', () => {
-            historyPanel.classList.add('active');
-            overlay.classList.add('active');
-        });
-        
-        historyClose.addEventListener('click', () => {
-            historyPanel.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-        
-        overlay.addEventListener('click', () => {
-            historyPanel.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-
-        // Glow button effects
-        document.querySelectorAll('.glow-btn').forEach(button => {
-            button.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px)';
-            });
+        function getBotResponse(message) {
+            const responses = [
+                "I understand how you're feeling. It's important to acknowledge these emotions. Can you tell me more about what's been on your mind?",
+                "Thank you for sharing that with me. It sounds like you're going through a challenging time. Remember that it's okay to not be okay sometimes.",
+                "I hear you. Let's work through this together. Would it help to practice a quick breathing exercise?",
+                "Your feelings are valid. Many people experience similar challenges. What's one small thing that might help you feel a bit better right now?",
+                "I appreciate you opening up about this. It takes courage to talk about our struggles. How have you been coping with these feelings?",
+                "It sounds like you're carrying a heavy load. Remember to be kind to yourself during difficult times. What self-care practices have helped you before?"
+            ];
             
-            button.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+        
+        // Mood tracker functionality
+        document.querySelectorAll('.mood-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.mood-option').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // In a real app, this would send the mood data to the server
+                console.log('Mood selected:', this.querySelector('span').textContent);
             });
         });
-
-        // Add some initial messages to the chat
-        window.addEventListener('DOMContentLoaded', () => {
-            // Simulate initial conversation
-            setTimeout(() => {
-                addMessage("Hello! I'm your SynthoMind assistant. How are you feeling today?", false);
-            }, 1000);
+        
+        // History item selection
+        document.querySelectorAll('.history-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.history-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
         });
     </script>
 </body>
