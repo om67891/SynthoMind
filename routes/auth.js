@@ -77,9 +77,28 @@ router.post('/verify-otp', async (req, res) => {
         user.isVerified = true;
         user.otp = undefined;
         user.otpExpiry = undefined;
+        
+        // Initialize default values
+        user.chatHistoryId = [];
+        user.levelOfHelthId = "";
+        user.healthHistory = "";
+        
         await user.save();
 
-        res.json({ message: 'Registration completed successfully!' });
+        // Create session for the newly verified user
+        req.session.user = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            phone: user.phone,
+            levelOfHelthId: user.levelOfHelthId
+        };
+
+        res.json({ 
+            message: 'Registration completed successfully!',
+            user: req.session.user
+        });
     } catch (error) {
         console.error('OTP verification error:', error);
         res.status(500).json({ error: 'OTP verification failed' });
@@ -108,17 +127,39 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid password' });
         }
 
-        // Create session or JWT token here if needed
-        
-        res.json({ message: 'Login successful', user: { 
-            name: user.name, 
+        // Store user information in session
+        req.session.user = {
+            id: user._id,
+            name: user.name,
             email: user.email,
             gender: user.gender,
-            phone: user.phone
-        }});
+            phone: user.phone,
+            levelOfHelthId: user.levelOfHelthId
+        };
+        
+        res.json({ 
+            message: 'Login successful',
+            user: req.session.user
+        });
     } catch (error) {
         console.error('Login error:', error);
         res.status(500).json({ error: 'Login failed' });
+    }
+});
+
+// Logout route
+router.post('/logout', (req, res) => {
+    try {
+        // Destroy the session
+        req.session.destroy((err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Logout failed' });
+            }
+            res.json({ message: 'Logged out successfully' });
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).json({ error: 'Logout failed' });
     }
 });
 

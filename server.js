@@ -41,8 +41,11 @@ app.use(session({
   }
 }));
 
+// Import auth middleware
+const { isAuthenticated, isNotAuthenticated } = require('./middleware/auth');
+
 // Routes
-app.get('/', (req, res) => {
+app.get('/', isNotAuthenticated, (req, res) => {
   res.render('langingPage');
 });
 
@@ -50,10 +53,11 @@ app.get('/', (req, res) => {
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
 
-
+const homeRoutes = require("./routes/homeRoute");
+app.use("/home", isAuthenticated, homeRoutes);
 
 const classificationRoutes = require("./routes/clasificationAgentRoute");
-app.use("/classification", classificationRoutes);
+app.use("/classification", isAuthenticated, classificationRoutes);
 
 // Start server
 const PORT = process.env.PORT || 3000;
