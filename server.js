@@ -43,8 +43,14 @@ app.use(session({
 
 // Routes
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('langingPage');
 });
+
+// Auth routes
+const authRoutes = require("./routes/auth");
+app.use("/auth", authRoutes);
+
+
 
 const classificationRoutes = require("./routes/clasificationAgentRoute");
 app.use("/classification", classificationRoutes);

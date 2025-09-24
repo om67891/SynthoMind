@@ -1,66 +1,67 @@
-
 require('dotenv').config(); // load .env variables
-const { OpenAI } = require('openai');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const {options} = require('../database/myLevels.js');
+// Load API key from environment variable
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-});
-
+// Pick a model (flash = cheaper/faster, pro = higher quality)
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 
 async function classifyJournalEntry(journalEntry) {
-    const prompt = `
-            You are a mental health classification assistant. 
-            Analyze this journal entry and estimate the probability (0-100%) for three mental health levels (Level 1: Mood/Emotional, Level 2: Behavioral/Personality, Level 3: Severe/Psychotic). 
-            Do NOT reveal the level names. Return JSON in this format:
-            {"OptionA": 0, "OptionB": 0, "OptionC": 0}
+  const prompt = `
+    You are a mental health classification assistant.
 
-            Journal Entry: "${journalEntry}"
-        `;
+    Here are the classification categories:
+    OptionA: ${options.Level_1}
+    OptionB: ${options.Level_2}
+    OptionC: ${options.Level_3}
 
-    try {
-        const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-            { role: "system", content: "You are an AI mental health assistant." },
-            { role: "user", content: prompt }
-        ],
-        temperature: 0 // deterministic output
-        });
+    Task:
+    - Analyze the following journal entry.
+    - Estimate the probability (0-100%) for each option.
+    - Do NOT reveal option names or category details to the user.
+    - Return ONLY valid JSON with no code block formatting in this format:
+      {"OptionA": 0, "OptionB": 0, "OptionC": 0}
 
-        const message = response.choices[0].message.content;
-        console.log(message);
-        const probabilities = JSON.parse(message); // OptionA, OptionB, OptionC
-        console.log(probabilities);
-        return probabilities;
+    Journal Entry: "${journalEntry}"
+  `;
 
-    } catch (err) {
-        console.error("OpenAI API Error:", err);
-        return null;
-    }
+  try {
+    const result = await model.generateContent(prompt);
+    let message = result.response.text().trim();
+
+    // 🧹 Strip markdown if Gemini adds ```json ... ```
+    message = message.replace(/```json\s*/i, "").replace(/```/g, "").trim();
+
+    console.log("Raw response:", message);
+
+    const probabilities = JSON.parse(message);
+    return probabilities;
+  } catch (err) {
+    console.error("Gemini API Error:", err);
+    return null;
+  }
 }
-
 
 async function getFollowUpQuestion(previousAnswers) {
   const prompt = `
-        You are a mental health assistant. 
-        Based on the user's previous responses: ${JSON.stringify(previousAnswers)}, 
-        ask one follow-up question that will help improve classification accuracy.
-        Return only the question as plain text.
-    `;
+    You are a mental health assistant.
+    Based on the user's previous responses: ${JSON.stringify(previousAnswers)},
+    ask ONE follow-up question that will help improve classification accuracy.
+    Return only the question as plain text.
+  `;
 
-    const response = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-            { role: "system", content: "You are an AI mental health assistant." },
-            { role: "user", content: prompt }
-        ],
-        temperature: 0.7
-    });
-    console.log(response.choices[0].message);
-    console.log(response.choices[0].message.content.trim());
+  try {
+    const result = await model.generateContent(prompt);
+    const question = result.response.text().trim();
 
-    return response.choices[0].message.content.trim();
+    console.log(question);
+    return question;
+  } catch (err) {
+    console.error("Gemini API Error:", err);
+    return null;
+  }
 }
 
 module.exports = { classifyJournalEntry, getFollowUpQuestion };

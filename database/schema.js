@@ -10,6 +10,12 @@ const userInfoSchema = new mongoose.Schema({
     chatHistoryId: Array,
     levelOfHelthId: String,
     healthHistory: String,
+    otp: String,
+    otpExpiry: Date,
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
 });
 
 
