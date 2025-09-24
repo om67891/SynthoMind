@@ -824,6 +824,102 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
+
+        /* Logout Modal Styles */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            width: 90%;
+            max-width: 400px;
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .modal-header p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-btn-cancel {
+            background-color: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .modal-btn-confirm {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to { 
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
     </style>
 </head>
 <body>
@@ -1081,112 +1177,71 @@
         </div>
     </div>
 
+    <!-- Logout Modal -->
+    <div class="modal-backdrop" id="logoutModal">
+        <div class="modal">
+            <div class="modal-header">
+                <i class="fas fa-sign-out-alt"></i>
+                <h3>Confirm Logout</h3>
+                <p>Are you sure you want to end your session?</p>
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-cancel" id="cancelLogout">Cancel</button>
+                <button class="modal-btn modal-btn-confirm" id="confirmLogout">Yes, Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/chat.js"></script>
     <script>
+        // Logout Modal Functionality
+        const logoutModal = document.getElementById('logoutModal');
+        const cancelLogout = document.getElementById('cancelLogout');
+        const confirmLogout = document.getElementById('confirmLogout');
+
+        // Show modal when logout button is clicked
+        document.querySelector('.logout-btn').addEventListener('click', function() {
+            logoutModal.style.display = 'block';
+        });
+
+        // Hide modal when cancel is clicked
+        cancelLogout.addEventListener('click', function() {
+            logoutModal.style.display = 'none';
+        });
+
+        // Hide modal when clicking outside
+        logoutModal.addEventListener('click', function(e) {
+            if (e.target === logoutModal) {
+                logoutModal.style.display = 'none';
+            }
+        });
+
+        // Handle logout confirmation
+        confirmLogout.addEventListener('click', function() {
+            fetch('/auth/logout', {
+                method: 'POST',
+                credentials: 'same-origin'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Logged out successfully') {
+                    window.location.href = '/';
+                } else {
+                    logoutModal.style.display = 'none';
+                    showNotification('Logout failed. Please try again.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                logoutModal.style.display = 'none';
+                showNotification('Logout failed. Please try again.', 'error');
+            });
+        });
+
         // Toggle mobile menu
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
-        });
-        
-        // Send message functionality
-        document.querySelector('.send-btn').addEventListener('click', sendMessage);
-        document.querySelector('.chat-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-        
-        function sendMessage() {
-            const input = document.querySelector('.chat-input');
-            const message = input.value.trim();
-            
-            if (message) {
-                // Add user message to chat
-                const chatMessages = document.querySelector('.chat-messages');
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message user-message';
-                messageDiv.innerHTML = `
-                    <p>${message}</p>
-                    <div class="message-time">${getCurrentTime()}</div>
-                `;
-                chatMessages.appendChild(messageDiv);
-                
-                // Clear input
-                input.value = '';
-                
-                // Show typing indicator
-                const typingIndicator = document.querySelector('.typing-indicator');
-                typingIndicator.style.display = 'flex';
-                
-                // Simulate bot response after delay
-                setTimeout(() => {
-                    typingIndicator.style.display = 'none';
-                    
-                    // Add bot response
-                    const botMessageDiv = document.createElement('div');
-                    botMessageDiv.className = 'message bot-message';
-                    botMessageDiv.innerHTML = `
-                        <p>${getBotResponse(message)}</p>
-                        <div class="message-time">${getCurrentTime()}</div>
-                    `;
-                    chatMessages.appendChild(botMessageDiv);
-                    
-                    // Scroll to bottom
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                    
-                    // Randomly trigger crisis alert (for demo)
-                    if (Math.random() > 0.8) {
-                        document.querySelector('.crisis-alert').style.display = 'flex';
-                        setTimeout(() => {
-                            document.querySelector('.crisis-alert').style.display = 'none';
-                        }, 5000);
-                    }
-                }, 2000);
-                
-                // Scroll to bottom
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        }
-        
-        function getCurrentTime() {
-            const now = new Date();
-            return now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
-        }
-        
-        function getBotResponse(message) {
-            const responses = [
-                "I understand how you're feeling. It's important to acknowledge these emotions. Can you tell me more about what's been on your mind?",
-                "Thank you for sharing that with me. It sounds like you're going through a challenging time. Remember that it's okay to not be okay sometimes.",
-                "I hear you. Let's work through this together. Would it help to practice a quick breathing exercise?",
-                "Your feelings are valid. Many people experience similar challenges. What's one small thing that might help you feel a bit better right now?",
-                "I appreciate you opening up about this. It takes courage to talk about our struggles. How have you been coping with these feelings?",
-                "It sounds like you're carrying a heavy load. Remember to be kind to yourself during difficult times. What self-care practices have helped you before?"
-            ];
-            
-            return responses[Math.floor(Math.random() * responses.length)];
-        }
-        
-        // Mood tracker functionality
-        document.querySelectorAll('.mood-option').forEach(option => {
-            option.addEventListener('click', function() {
-                document.querySelectorAll('.mood-option').forEach(opt => {
-                    opt.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // In a real app, this would send the mood data to the server
-                console.log('Mood selected:', this.querySelector('span').textContent);
-            });
-        });
-        
-        // History item selection
-        document.querySelectorAll('.history-item').forEach(item => {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.history-item').forEach(i => {
-                    i.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
         });
     </script>
 </body>

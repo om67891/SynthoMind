@@ -6,7 +6,16 @@ const userInfoSchema = new mongoose.Schema({
     password: String,
     phone: String,
     email: String,
-    userParentInfo: Array, // name, phone number, relation, email
+    userParentInfo: [{
+        name: String,
+        phone: String,
+        relation: String,
+        email: String,
+        lastUpdated: {
+            type: Date,
+            default: Date.now
+        }
+    }],
     chatHistoryId: Array,
     levelOfHelthId: String,
     healthHistory: String,
@@ -39,11 +48,17 @@ const chatHistorySchema = new mongoose.Schema({
     }
 });
 
+const reportSchema = new mongoose.Schema({
+    chatId: Array,
+
+})
+
 const userInfo = mongoose.model('userInfo', userInfoSchema);
 
 const levelOfHelth = mongoose.model('levelOfHelth', levelOfHelthSchema);
 
 const chatHistory = mongoose.model('chatHistory', chatHistorySchema);
+
 module.exports = {userInfo, levelOfHelth, chatHistory };
 
 

@@ -576,6 +576,57 @@
             background-color: var(--gray-light);
         }
 
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: var(--radius);
+            background: white;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification.success {
+            background: #DEF7EC;
+            color: #03543F;
+            border-left: 4px solid #0F766E;
+        }
+
+        .notification.error {
+            background: #FEE2E2;
+            color: #991B1B;
+            border-left: 4px solid #DC2626;
+        }
+
+        .notification.warning {
+            background: #FEF3C7;
+            color: #92400E;
+            border-left: 4px solid #D97706;
+        }
+
+        .notification.info {
+            background: #DBEAFE;
+            color: #1E40AF;
+            border-left: 4px solid #3B82F6;
+        }
+
         /* Scrollbar Styling */
         ::-webkit-scrollbar {
             width: 6px;
@@ -789,6 +840,28 @@
     </div>
 
     <script>
+        // Logout functionality
+        document.querySelector('.logout-btn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to logout?')) {
+                fetch('/auth/logout', {
+                    method: 'POST',
+                    credentials: 'same-origin'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Logged out successfully') {
+                        window.location.href = '/';
+                    } else {
+                        alert('Logout failed. Please try again.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Logout failed. Please try again.');
+                });
+            }
+        });
+
         // Toggle mobile menu
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('.sidebar').classList.toggle('active');
@@ -884,11 +957,59 @@
                 parentItem.parentNode.removeChild(parentItem);
             });
         });
+
+        // Function to collect emergency contact data
+        function collectEmergencyContacts() {
+            const contacts = [];
+            document.querySelectorAll('.parent-item').forEach(item => {
+                const contact = {
+                    name: item.querySelector('input[placeholder="Contact Name"]').value,
+                    relation: item.querySelector('input[placeholder*="Relation"]').value,
+                    phone: item.querySelector('input[type="tel"]').value,
+                    email: item.querySelector('input[type="email"]').value
+                };
+                if (contact.name && contact.phone && contact.relation && contact.email) {
+                    contacts.push(contact);
+                }
+            });
+            return contacts;
+        }
+
+        // Function to update emergency contacts
+        async function updateEmergencyContacts(contacts) {
+            try {
+                const response = await fetch('/profile/update-contacts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ contacts })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    showNotification('Emergency contacts updated successfully', 'success');
+                    return true;
+                } else {
+                    showNotification(data.error || 'Failed to update emergency contacts', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error updating emergency contacts:', error);
+                showNotification('Failed to update emergency contacts', 'error');
+                return false;
+            }
+        }
         
         // Save changes
-        document.getElementById('saveBtn').addEventListener('click', function() {
-            // In a real application, you would send the data to the server here
-            alert('Profile updated successfully!');
+        document.getElementById('saveBtn').addEventListener('click', async function() {
+            // Collect and update emergency contacts if they were edited
+            const editContactsBtn = document.getElementById('editContacts');
+            if (editContactsBtn.innerHTML.includes('Save')) {
+                const contacts = collectEmergencyContacts();
+                const success = await updateEmergencyContacts(contacts);
+                if (!success) return;
+            }
             
             // Reset all edit buttons to "Edit"
             document.querySelectorAll('.edit-btn').forEach(btn => {
@@ -922,5 +1043,7 @@
             }
         });
     </script>
+    <!-- Load profile management script -->
+    <script src="/js/profile.js"></script>
 </body>
 </html>
