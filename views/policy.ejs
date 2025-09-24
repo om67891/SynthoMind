@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCare AI | Privacy Policy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #3B82F6;
+            --primary-light: #1E40AF;
+            --primary-dark: #1E3A8A;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --bg-dark: #0F172A;
+            --bg-medium: #1E293B;
+            --bg-light: #334155;
+            --text-primary: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --text-muted: #94A3B8;
+            --border: #475569;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+            --radius: 6px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .policy-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .policy-header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .policy-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+        }
+
+        .last-updated {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Navigation */
+        .policy-nav {
+            background: var(--bg-medium);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .policy-nav h2 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        /* Main Content */
+        .policy-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+        }
+
+        /* Table of Contents */
+        .toc {
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            background: var(--bg-medium);
+            border-radius: var(--radius);
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .toc h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-item {
+            margin-bottom: 10px;
+        }
+
+        .toc-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .toc-link:hover {
+            background: var(--bg-light);
+            color: var(--text-primary);
+        }
+
+        .toc-link.active {
+            background: var(--bg-light);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .toc-link i {
+            font-size: 0.8rem;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* Policy Sections */
+        .policy-content {
+            background: var(--bg-medium);
+            border-radius: var(--radius);
+            padding: 30px;
+            border: 1px solid var(--border);
+        }
+
+        .policy-section {
+            margin-bottom: 50px;
+            scroll-margin-top: 20px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-number {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .policy-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            max-width: 700px;
+        }
+
+        .policy-highlight {
+            background: var(--bg-light);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 20px 0;
+        }
+
+        .policy-details {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: var(--radius);
+            margin: 20px 0;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+
+        .detail-icon {
+            color: var(--primary);
+            margin-right: 12px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .policy-visual {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .visual-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: var(--radius);
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .visual-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .visual-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .visual-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .visual-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .policy-footer {
+            background: var(--bg-dark);
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            margin-top: 25px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .policy-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .toc {
+                position: static;
+                order: 2;
+            }
+            
+            .policy-content {
+                order: 1;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .policy-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .policy-header {
+                padding: 30px 20px;
+            }
+            
+            .policy-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .policy-content {
+                padding: 20px 15px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .policy-visual {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .policy-nav, .toc {
+                display: none;
+            }
+            
+            .policy-container {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .policy-header {
+                background: white;
+                color: black;
+                border-bottom: 2px solid #ccc;
+            }
+            
+            .policy-content {
+                background: white;
+                border: 1px solid #ddd;
+            }
+            
+            .policy-text, .section-title {
+                color: #333;
+            }
+            
+            .policy-highlight, .policy-details {
+                background: #f9f9f9;
+                border-left-color: #666;
+            }
+        }
+
+        /* Animation for section highlighting when navigated to */
+        .policy-section:target {
+            animation: highlight 1.5s ease;
+        }
+
+        @keyframes highlight {
+            0% { background-color: transparent; }
+            30% { background-color: rgba(59, 130, 246, 0.1); }
+            100% { background-color: transparent; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="policy-header">
+        <div class="header-content">
+            <h1><i class="fas fa-shield-alt"></i> Privacy Policy</h1>
+            <p>Your trust is our priority. Learn how we protect your data and privacy.</p>
+            <div class="last-updated">Last updated: March 15, 2023</div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="policy-nav">
+        <div class="nav-container">
+            <h2><i class="fas fa-gavel"></i> MindCare AI Policies</h2>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/about" class="nav-link">About</a>
+                <a href="/policies" class="nav-link active">Policies</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="policy-container">
+        <!-- Table of Contents -->
+        <aside class="toc">
+            <h3><i class="fas fa-list-ul"></i> Contents</h3>
+            <ul class="toc-list">
+                <li class="toc-item"><a href="#data-privacy" class="toc-link active"><i class="fas fa-lock"></i> Data Privacy</a></li>
+                <li class="toc-item"><a href="#data-usage" class="toc-link"><i class="fas fa-database"></i> Data Usage</a></li>
+                <li class="toc-item"><a href="#non-diagnostic" class="toc-link"><i class="fas fa-stethoscope"></i> Non-Diagnostic</a></li>
+                <li class="toc-item"><a href="#consultation" class="toc-link"><i class="fas fa-user-md"></i> Consultation</a></li>
+                <li class="toc-item"><a href="#crisis-handling" class="toc-link"><i class="fas fa-exclamation-triangle"></i> Crisis Handling</a></li>
+                <li class="toc-item"><a href="#user-control" class="toc-link"><i class="fas fa-user-shield"></i> User Control</a></li>
+                <li class="toc-item"><a href="#transparency" class="toc-link"><i class="fas fa-eye"></i> Transparency</a></li>
+                <li class="toc-item"><a href="#ethical-interaction" class="toc-link"><i class="fas fa-hand-holding-heart"></i> Ethical Interaction</a></li>
+                <li class="toc-item"><a href="#data-retention" class="toc-link"><i class="fas fa-hourglass-half"></i> Data Retention</a></li>
+                <li class="toc-item"><a href="#security" class="toc-link"><i class="fas fa-shield-virus"></i> Security</a></li>
+            </ul>
+        </aside>
+
+        <!-- Policy Content -->
+        <div class="policy-content">
+            <!-- Section 1 -->
+            <section id="data-privacy" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">1</div>
+                    <h2 class="section-title">Data Privacy & Confidentiality</h2>
+                </div>
+                <p class="policy-text">
+                    At MindCare AI, we treat your conversations, analysis data, and generated reports with the highest level of confidentiality. 
+                    Your privacy is fundamental to our service, and we implement robust measures to ensure your information remains secure.
+                </p>
+                <div class="policy-highlight">
+                    All your data is encrypted both in transit and at rest. No personally identifiable information or conversation content is shared with third parties without your explicit consent, except as required by law (e.g., risk of imminent harm).
+                </div>
+                <div class="policy-visual">
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-lock"></i></div>
+                        <div class="visual-title">End-to-End Encryption</div>
+                        <div class="visual-text">Your data is secured with military-grade encryption</div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-user-secret"></i></div>
+                        <div class="visual-title">Strict Confidentiality</div>
+                        <div class="visual-text">Your conversations remain private and secure</div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-ban"></i></div>
+                        <div class="visual-title">No Third-Party Sharing</div>
+                        <div class="visual-text">We don't sell or share your data with advertisers</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2 -->
+            <section id="data-usage" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">2</div>
+                    <h2 class="section-title">Data Usage for Model Training</h2>
+                </div>
+                <p class="policy-text">
+                    We believe your personal data should remain yours. That's why we have a strict policy against using your information for training AI models.
+                </p>
+                <div class="policy-highlight">
+                    Your personal data, including chat messages, summaries, and reports, is absolutely not used to train or improve any underlying AI models. The AI models are used as a static tool for your session only. Your data is solely for the purpose of providing support to you and generating your personal reports.
+                </div>
+                <div class="policy-details">
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>Your data is processed in isolated sessions</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>No personal information is used for model improvement</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-check-circle"></i></div>
+                        <div>All analysis is performed locally when possible</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3 -->
+            <section id="non-diagnostic" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">3</div>
+                    <h2 class="section-title">Non-Diagnostic & Educational Purpose</h2>
+                </div>
+                <p class="policy-text">
+                    MindCare AI is designed as a supportive tool for self-reflection and mental wellness, not as a replacement for professional medical advice.
+                </p>
+                <div class="policy-highlight">
+                    This agent is a supportive tool and does not provide medical diagnoses, treatments, or clinical advice. The insights, classifications, and trends generated are for educational and self-reflection purposes only. They are based on patterns in your text and are not a substitute for a professional evaluation by a licensed mental health provider.
+                </div>
+            </section>
+
+            <!-- Section 4 -->
+            <section id="consultation" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">4</div>
+                    <h2 class="section-title">Professional Consultation Mandate</h2>
+                </div>
+                <p class="policy-text">
+                    Your mental health is important, and sometimes technology can only go so far. We always encourage seeking professional guidance when needed.
+                </p>
+                <div class="policy-highlight">
+                    You are strongly encouraged to consult with a qualified healthcare professional for any mental health concerns. The agent will explicitly recommend seeking professional help, especially when discussions involve severe symptoms, crises, or potential disorders.
+                </div>
+                <div class="policy-visual">
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-hand-holding-medical"></i></div>
+                        <div class="visual-title">Professional Guidance</div>
+                        <div class="visual-text">We encourage consulting licensed professionals</div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-exclamation-circle"></i></div>
+                        <div class="visual-title">Crisis Awareness</div>
+                        <div class="visual-text">We recognize when professional help is needed</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5 -->
+            <section id="crisis-handling" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">5</div>
+                    <h2 class="section-title">Crisis Handling & Escalation</h2>
+                </div>
+                <p class="policy-text">
+                    Your safety is our utmost priority. We have protocols in place to provide immediate support during crisis situations.
+                </p>
+                <div class="policy-highlight">
+                    If the agent detects language indicating an imminent risk of harm to yourself or others (e.g., suicidal ideation), its protocol is to urge you to seek immediate help. It will provide specific, relevant crisis resources (e.g., hotline numbers like 988). The system may also be designed to alert a human administrator if a severe crisis is identified and a user email is known, depending on the platform's escalation protocols.
+                </div>
+                <div class="policy-details">
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div>Immediate access to crisis hotlines (e.g., 988 Suicide & Crisis Lifeline)</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-bell"></i></div>
+                        <div>Proactive escalation in high-risk situations</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>Location-based emergency service recommendations</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6 -->
+            <section id="user-control" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">6</div>
+                    <h2 class="section-title">User Control and Data Ownership</h2>
+                </div>
+                <p class="policy-text">
+                    You have complete control over your data. We believe that you should own and manage your personal information.
+                </p>
+                <div class="policy-highlight">
+                    You own your data. You can request a copy of all your stored data or request its permanent deletion at any time by contacting the system administrators. The "download report" feature is a first step in providing you with control over your information.
+                </div>
+                <div class="policy-visual">
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-download"></i></div>
+                        <div class="visual-title">Data Export</div>
+                        <div class="visual-text">Download your complete data at any time</div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-trash-alt"></i></div>
+                        <div class="visual-title">Right to Delete</div>
+                        <div class="visual-text">Request permanent deletion of your data</div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-cog"></i></div>
+                        <div class="visual-title">Privacy Controls</div>
+                        <div class="visual-text">Customize your privacy settings</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7 -->
+            <section id="transparency" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">7</div>
+                    <h2 class="section-title">Transparency in AI Operation</h2>
+                </div>
+                <p class="policy-text">
+                    We believe in being open about how our technology works and its limitations.
+                </p>
+                <div class="policy-highlight">
+                    The agent will identify itself as an AI and explain its limitations at the outset of the conversation. The multi-agent architecture (Chat, Understanding, Analysis, etc.) is used to provide structured support, but you will be informed that all responses are generated by AI systems.
+                </div>
+            </section>
+
+            <!-- Section 8 -->
+            <section id="ethical-interaction" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">8</div>
+                    <h2 class="section-title">Ethical and Non-Judgmental Interaction</h2>
+                </div>
+                <p class="policy-text">
+                    Our AI is designed to provide a safe, supportive, and non-judgmental environment for you to express yourself.
+                </p>
+                <div class="policy-highlight">
+                    The agent is programmed to interact with empathy, respect, and without judgment. Its responses are guided by principles that prohibit harmful, biased, or discriminatory language. The goal is to create a safe and supportive environment for you to express yourself.
+                </div>
+                <div class="policy-details">
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-heart"></i></div>
+                        <div>Empathetic and respectful communication</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-balance-scale"></i></div>
+                        <div>Bias mitigation in all responses</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-handshake"></i></div>
+                        <div>Non-judgmental and supportive environment</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 9 -->
+            <section id="data-retention" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">9</div>
+                    <h2 class="section-title">Data Retention and Deletion</h2>
+                </div>
+                <p class="policy-text">
+                    We don't keep your data longer than necessary. Clear retention policies ensure your information is only stored as long as needed.
+                </p>
+                <div class="policy-highlight">
+                    Your data will be retained only for as long as necessary to provide the service (e.g., for generating trend analyses across sessions) or as required by law. Clear data retention periods will be established, after which data will be securely and permanently erased from all systems, including databases.
+                </div>
+                <div class="policy-visual">
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-calendar-times"></i></div>
+                        <div class="visual-title">Automatic Expiration</div>
+                        <div class="visual-text">Data automatically deleted after retention period</div>
+                    </div>
+                    <div class="visual-card">
+                        <div class="visual-icon"><i class="fas fa-eraser"></i></div>
+                        <div class="visual-title">Secure Deletion</div>
+                        <div class="visual-text">Complete erasure using secure methods</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 10 -->
+            <section id="security" class="policy-section">
+                <div class="section-header">
+                    <div class="section-number">10</div>
+                    <h2 class="section-title">Security of Stored Information</h2>
+                </div>
+                <p class="policy-text">
+                    We implement multiple layers of security to protect your data from unauthorized access or breaches.
+                </p>
+                <div class="policy-highlight">
+                    We implement robust technical and organizational security measures to protect your data against unauthorized access, alteration, or destruction. This includes encryption of database entries and secure access controls. The encryption key management will be moved to a secure, external system (like a cloud key management service) for production use, replacing the hardcoded key in the demo code.
+                </div>
+                <div class="policy-details">
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>Multi-layered security protocols</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-key"></i></div>
+                        <div>Secure encryption key management</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-icon"><i class="fas fa-user-lock"></i></div>
+                        <div>Strict access controls and authentication</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="policy-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i class="fas fa-brain"></i> MindCare AI
+            </div>
+            <p>Your mental wellness partner. Committed to your privacy and security.</p>
+            <div class="footer-links">
+                <a href="/" class="footer-link">Home</a>
+                <a href="/about" class="footer-link">About Us</a>
+                <a href="/contact" class="footer-link">Contact</a>
+                <a href="/terms" class="footer-link">Terms of Service</a>
+                <a href="/privacy" class="footer-link">Privacy Policy</a>
+            </div>
+            <div class="copyright">
+                &copy; 2023 MindCare AI. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Table of Contents Highlighting
+        const sections = document.querySelectorAll('.policy-section');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        
+        function highlightActiveSection() {
+            let index = sections.length;
+            
+            while(--index && window.scrollY + 100 < sections[index].offsetTop) {}
+            
+            tocLinks.forEach((link) => link.classList.remove('active'));
+            if (index >= 0) {
+                tocLinks[index].classList.add('active');
+            }
+        }
+        
+        window.addEventListener('scroll', highlightActiveSection);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

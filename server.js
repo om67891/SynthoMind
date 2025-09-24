@@ -60,8 +60,12 @@ app.use("/home", isAuthenticated, homeRoutes);
 
 
 
+
 const profileRoutes = require("./routes/profileRoute");
 app.use("/profile", profileRoutes);
+
+const policyRoutes = require("./routes/policyRoute");
+app.use("/policy", policyRoutes);
 
 
 const reportsRoutes = require("./routes/reportRoute");
