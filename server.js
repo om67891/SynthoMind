@@ -56,6 +56,19 @@ app.use("/auth", authRoutes);
 const homeRoutes = require("./routes/homeRoute");
 app.use("/home", isAuthenticated, homeRoutes);
 
+
+
+
+
+const profileRoutes = require("./routes/profileRoute");
+app.use("/profile", profileRoutes);
+
+
+const reportsRoutes = require("./routes/reportRoute");
+app.use("/report", reportsRoutes);
+
+
+
 const classificationRoutes = require("./routes/clasificationAgentRoute");
 app.use("/classification", isAuthenticated, classificationRoutes);
 
