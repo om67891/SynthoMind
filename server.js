@@ -61,13 +61,28 @@ app.use("/auth", authRoutes);
 const homeRoutes = require("./routes/homeRoute");
 app.use("/home", isAuthenticated, homeRoutes);
 
+<<<<<<< HEAD
 // Profile routes
+=======
+
+
+
+
+
+>>>>>>> 77071b212d946c5a43ef14725392e39817381006
 const profileRoutes = require("./routes/profileRoute");
 const emergencyContactRoutes = require("./routes/emergencyContactRoute");
 app.use("/profile", profileRoutes);
 app.use("/profile", emergencyContactRoutes);
 
+<<<<<<< HEAD
 // Report routes
+=======
+const policyRoutes = require("./routes/policyRoute");
+app.use("/policy", policyRoutes);
+
+
+>>>>>>> 77071b212d946c5a43ef14725392e39817381006
 const reportsRoutes = require("./routes/reportRoute");
 app.use("/report", reportsRoutes);
 
